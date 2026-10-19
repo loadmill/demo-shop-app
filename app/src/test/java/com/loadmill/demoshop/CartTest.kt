@@ -50,7 +50,8 @@ class CartTest {
         viewModel.placeOrder()
 
         assertEquals(Screen.Confirmation, viewModel.screen)
-        assertEquals(4999, viewModel.order?.totalCents)
+        assertEquals(4999, viewModel.order?.cart?.totalCents)
+        assertEquals("Jane", viewModel.order?.customerName)
         assertTrue(viewModel.order!!.number.startsWith("DS-"))
         assertTrue(viewModel.cart.isEmpty)
 
@@ -58,6 +59,7 @@ class CartTest {
 
         assertEquals(Screen.Catalog, viewModel.screen)
         assertEquals(null, viewModel.order)
+        assertEquals(null, viewModel.selectedProduct)
         assertTrue(viewModel.cart.isEmpty)
     }
 
@@ -72,5 +74,57 @@ class CartTest {
         assertTrue(viewModel.showErrors)
         assertEquals(Screen.Catalog, viewModel.screen)
         assertEquals(1, viewModel.cart.itemCount)
+    }
+
+    @Test
+    fun totalIsSubtotalPlusFreeShipping() {
+        val cart = Cart().add(backpack).add(bottle).increase(bottle.id)
+
+        assertEquals(4999 + 2 * 1999, cart.subtotalCents)
+        assertEquals(0, cart.shippingCents)
+        assertEquals(cart.subtotalCents, cart.totalCents)
+        assertEquals(0, Cart().totalCents)
+    }
+
+    @Test
+    fun categoryFilterKeepsOnlyMatchingProducts() {
+        assertEquals(catalogProducts, productsIn(null))
+        assertEquals(listOf("Backpack", "Water Bottle"), productsIn(Category.Gear).map { it.name })
+        assertTrue(productsIn(Category.Apparel).all { it.category == Category.Apparel })
+    }
+
+    @Test
+    fun backpackIsTheFirstProductInTheCatalog() {
+        assertEquals("Backpack", catalogProducts.first().name)
+    }
+
+    @Test
+    fun backFromCartReturnsToTheProductItWasOpenedFrom() {
+        val viewModel = ShopViewModel()
+        viewModel.openProduct(backpack)
+        viewModel.addToCart(backpack)
+        viewModel.goTo(Screen.Cart)
+
+        viewModel.back()
+        assertEquals(Screen.Detail, viewModel.screen)
+        assertEquals(backpack, viewModel.selectedProduct)
+
+        viewModel.back()
+        assertEquals(Screen.Catalog, viewModel.screen)
+        assertEquals(null, viewModel.selectedProduct)
+
+        viewModel.goTo(Screen.Cart)
+        viewModel.back()
+        assertEquals(Screen.Catalog, viewModel.screen)
+    }
+
+    @Test
+    fun startingOverResetsTheCategoryFilter() {
+        val viewModel = ShopViewModel()
+        viewModel.selectCategory(Category.Accessories)
+
+        viewModel.startOver()
+
+        assertEquals(null, viewModel.category)
     }
 }

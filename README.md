@@ -2,19 +2,23 @@
 
 Offline Android demo shop (Kotlin + Jetpack Compose) used to try QA agents such as Droid CUA.
 
-The app is fully offline: six hard-coded products, an in-memory cart, a pre-filled demo checkout, and an order confirmation. It has no network access (no `INTERNET` permission), no persistence, and no real payments. Relaunching the app starts with an empty cart.
+The app is a small storefront for a made-up brand, **Kestrel**: six hard-coded products with bundled photos, an in-memory cart, a pre-filled demo checkout, and an order confirmation. It is fully offline: no network access (no `INTERNET` permission), no persistence, and no real payments. Relaunching the app starts with an empty cart.
 
 - Application ID: `com.loadmill.demoshop`
-- App label: Demo Shop
+- App label: Kestrel
 - Version: 1.0.0 (versionCode 1)
 - minSdk 26, targetSdk 36
+- Light theme only, edge-to-edge, Plus Jakarta Sans font. Photo and font credits are in [`CREDITS.md`](CREDITS.md).
 
 ## Demo journey
 
-1. **Catalog**: tap **Add to cart** on **Backpack**. The top bar button shows **Cart (1)**.
-2. Tap **Cart (1)** to open **Your cart**. Adjust quantity with **-** / **+**, or tap **Remove**. Tap **Checkout** (disabled when the cart is empty).
-3. **Checkout**: the form is pre-filled with demo details (Jane Doe, demo card `4242 4242 4242 4242`, expiry `12/30`, CVC `123`). Tap **Place order**. Empty fields are flagged as required.
-4. **Order confirmed**: shows an order number (`DS-123456` style), the items, and the total. Tap **Start over** to clear the cart and return to the catalog.
+1. **Catalog**: the home screen shows the **kestrel** wordmark, a dark **Cart** button with the item count (for example **Cart 0**), category chips (**All**, **Gear**, **Apparel**, **Accessories**) and a two-column product grid. **Backpack** is the first product. Each card has a compact **Add to cart** button; tapping the card itself opens the product page. Products in the cart show a "1 in cart" tag on their photo.
+2. **Product page**: tap **Backpack** to see a large photo, the price, a description, and an **Add to cart** button at the bottom. After adding, "1 in your cart" appears above the button and the **Cart** button shows **1**. Use the round back button (or system back) to return.
+3. **Your cart**: tap **Cart** to see each item with a thumbnail, a **-** / **+** quantity stepper and **Remove**, plus an order summary (subtotal, shipping **Free**, total). Tap **Checkout** (disabled when the cart is empty; the empty cart offers **Continue shopping**).
+4. **Checkout**: grouped **Contact**, **Shipping** and **Payment** sections pre-filled with demo details (Jane Doe, demo card `4242 4242 4242 4242`, expiry `12/30`, CVC `123`), a preview of the demo card, and an order summary. Tap **Place order**. Empty fields are flagged as **Required** and "Please fill in all fields." is shown above the button.
+5. **Order confirmed**: a success check, the order number (`DS-123456` style), delivery info, the items and the total. Tap **Start over** to clear the cart and return to the catalog.
+
+Screen transitions and small feedback animations last at most 300 ms; nothing loops or auto-advances.
 
 ## Build
 

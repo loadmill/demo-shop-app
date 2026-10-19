@@ -6,7 +6,9 @@ data class CartLine(val product: Product, val quantity: Int) {
 
 data class Cart(val lines: List<CartLine> = emptyList()) {
     val itemCount: Int get() = lines.sumOf { it.quantity }
-    val totalCents: Int get() = lines.sumOf { it.totalCents }
+    val subtotalCents: Int get() = lines.sumOf { it.totalCents }
+    val shippingCents: Int get() = 0
+    val totalCents: Int get() = subtotalCents + shippingCents
     val isEmpty: Boolean get() = lines.isEmpty()
 
     fun quantityOf(productId: String): Int = lines.find { it.product.id == productId }?.quantity ?: 0

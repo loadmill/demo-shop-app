@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import kotlin.random.Random
 
-enum class Screen { Catalog, Cart, Checkout, Confirmation }
+enum class Screen { Catalog, Detail, Cart, Checkout, Confirmation }
 
 data class CheckoutForm(
     val name: String = "Jane Doe",
@@ -20,12 +20,16 @@ data class CheckoutForm(
         get() = listOf(name, email, address, cardNumber, expiry, cvc).all { it.isNotBlank() }
 }
 
-data class Order(val number: String, val lines: List<CartLine>, val totalCents: Int)
+data class Order(val number: String, val cart: Cart, val customerName: String)
 
 class ShopViewModel : ViewModel() {
     var screen by mutableStateOf(Screen.Catalog)
         private set
     var cart by mutableStateOf(Cart())
+        private set
+    var category by mutableStateOf<Category?>(null)
+        private set
+    var selectedProduct by mutableStateOf<Product?>(null)
         private set
     var form by mutableStateOf(CheckoutForm())
         private set
@@ -33,6 +37,15 @@ class ShopViewModel : ViewModel() {
         private set
     var order by mutableStateOf<Order?>(null)
         private set
+
+    fun selectCategory(newCategory: Category?) {
+        category = newCategory
+    }
+
+    fun openProduct(product: Product) {
+        selectedProduct = product
+        screen = Screen.Detail
+    }
 
     fun addToCart(product: Product) {
         cart = cart.add(product)
@@ -55,18 +68,17 @@ class ShopViewModel : ViewModel() {
     }
 
     fun goTo(target: Screen) {
+        if (target == Screen.Catalog) selectedProduct = null
         screen = target
     }
 
     fun back(): Boolean {
-        screen = when (screen) {
+        when (screen) {
             Screen.Catalog -> return false
-            Screen.Cart -> Screen.Catalog
-            Screen.Checkout -> Screen.Cart
-            Screen.Confirmation -> {
-                startOver()
-                return true
-            }
+            Screen.Detail -> goTo(Screen.Catalog)
+            Screen.Cart -> goTo(if (selectedProduct != null) Screen.Detail else Screen.Catalog)
+            Screen.Checkout -> goTo(Screen.Cart)
+            Screen.Confirmation -> startOver()
         }
         return true
     }
@@ -78,8 +90,8 @@ class ShopViewModel : ViewModel() {
         }
         order = Order(
             number = "DS-" + Random.nextInt(100000, 1000000),
-            lines = cart.lines,
-            totalCents = cart.totalCents,
+            cart = cart,
+            customerName = form.name.trim().substringBefore(' '),
         )
         cart = Cart()
         showErrors = false
@@ -91,6 +103,8 @@ class ShopViewModel : ViewModel() {
         form = CheckoutForm()
         showErrors = false
         order = null
+        category = null
+        selectedProduct = null
         screen = Screen.Catalog
     }
 }
