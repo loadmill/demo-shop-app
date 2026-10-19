@@ -42,7 +42,7 @@ class CartTest {
     }
 
     @Test
-    fun placingAnOrderAndStartingOverClearsTheCart() {
+    fun placingAnOrderAndContinuingShoppingClearsTheCart() {
         val viewModel = ShopViewModel()
         viewModel.addToCart(backpack)
         viewModel.goTo(Screen.Checkout)
@@ -55,7 +55,7 @@ class CartTest {
         assertTrue(viewModel.order!!.number.startsWith("DS-"))
         assertTrue(viewModel.cart.isEmpty)
 
-        viewModel.startOver()
+        viewModel.continueShopping()
 
         assertEquals(Screen.Catalog, viewModel.screen)
         assertEquals(null, viewModel.order)
@@ -119,12 +119,91 @@ class CartTest {
     }
 
     @Test
-    fun startingOverResetsTheCategoryFilter() {
+    fun continuingShoppingAfterAnOrderResetsTheCategoryFilter() {
         val viewModel = ShopViewModel()
         viewModel.selectCategory(Category.Accessories)
 
-        viewModel.startOver()
+        viewModel.continueShopping()
 
         assertEquals(null, viewModel.category)
+    }
+
+    @Test
+    fun addingFromTheProductPageShowsTheAddedToCartPrompt() {
+        val viewModel = ShopViewModel()
+        viewModel.openProduct(backpack)
+
+        viewModel.addToCartFromDetail(backpack)
+
+        assertEquals(backpack, viewModel.addedProduct)
+        assertEquals(1, viewModel.cart.quantityOf(backpack.id))
+        assertEquals(Screen.Detail, viewModel.screen)
+    }
+
+    @Test
+    fun addingFromTheCatalogDoesNotShowThePrompt() {
+        val viewModel = ShopViewModel()
+
+        viewModel.addToCart(backpack)
+
+        assertEquals(null, viewModel.addedProduct)
+        assertEquals(1, viewModel.cart.itemCount)
+    }
+
+    @Test
+    fun viewCartFromThePromptOpensTheCartAndBackReturnsToTheProduct() {
+        val viewModel = ShopViewModel()
+        viewModel.openProduct(backpack)
+        viewModel.addToCartFromDetail(backpack)
+
+        viewModel.goTo(Screen.Cart)
+
+        assertEquals(Screen.Cart, viewModel.screen)
+        assertEquals(null, viewModel.addedProduct)
+
+        viewModel.back()
+
+        assertEquals(Screen.Detail, viewModel.screen)
+        assertEquals(backpack, viewModel.selectedProduct)
+        assertEquals(null, viewModel.addedProduct)
+    }
+
+    @Test
+    fun continueShoppingFromThePromptReturnsToTheCatalogAndKeepsTheCart() {
+        val viewModel = ShopViewModel()
+        viewModel.openProduct(backpack)
+        viewModel.addToCartFromDetail(backpack)
+
+        viewModel.goTo(Screen.Catalog)
+
+        assertEquals(Screen.Catalog, viewModel.screen)
+        assertEquals(null, viewModel.addedProduct)
+        assertEquals(null, viewModel.selectedProduct)
+        assertEquals(1, viewModel.cart.itemCount)
+    }
+
+    @Test
+    fun dismissingThePromptStaysOnTheProductPage() {
+        val viewModel = ShopViewModel()
+        viewModel.openProduct(backpack)
+        viewModel.addToCartFromDetail(backpack)
+
+        viewModel.dismissAddedPrompt()
+
+        assertEquals(Screen.Detail, viewModel.screen)
+        assertEquals(null, viewModel.addedProduct)
+        assertEquals(1, viewModel.cart.itemCount)
+    }
+
+    @Test
+    fun systemBackWhileThePromptIsOpenOnlyClosesThePrompt() {
+        val viewModel = ShopViewModel()
+        viewModel.openProduct(backpack)
+        viewModel.addToCartFromDetail(backpack)
+
+        assertTrue(viewModel.back())
+
+        assertEquals(Screen.Detail, viewModel.screen)
+        assertEquals(null, viewModel.addedProduct)
     }
 }

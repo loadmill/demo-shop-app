@@ -33,7 +33,7 @@ import com.loadmill.demoshop.Order
 import com.loadmill.demoshop.R
 
 @Composable
-fun ConfirmationScreen(order: Order, onStartOver: () -> Unit) {
+fun ConfirmationScreen(order: Order, onContinueShopping: () -> Unit) {
     val reveal = remember { Animatable(0f) }
     LaunchedEffect(Unit) { reveal.animateTo(1f, tween(300, easing = FastOutSlowInEasing)) }
 
@@ -121,7 +121,7 @@ fun ConfirmationScreen(order: Order, onStartOver: () -> Unit) {
             }
         }
         BottomBar {
-            PrimaryButton("Start over", onStartOver, Modifier.fillMaxWidth())
+            PrimaryButton("Continue shopping", onContinueShopping, Modifier.fillMaxWidth())
         }
     }
 }

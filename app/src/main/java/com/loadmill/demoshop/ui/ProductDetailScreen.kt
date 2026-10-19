@@ -22,12 +22,18 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.BottomSheetDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.loadmill.demoshop.Cart
 import com.loadmill.demoshop.Product
@@ -115,6 +121,64 @@ private fun Perk(@DrawableRes icon: Int, title: String, subtitle: String) {
         Column {
             Text(title, style = MaterialTheme.typography.titleSmall)
             Text(subtitle, style = MaterialTheme.typography.bodySmall, color = Muted)
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AddedToCartSheet(
+    product: Product,
+    onViewCart: () -> Unit,
+    onContinueShopping: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+        shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
+        containerColor = Color.White,
+        contentColor = Ink,
+        tonalElevation = 0.dp,
+        scrimColor = Ink.copy(alpha = 0.4f),
+        dragHandle = { BottomSheetDefaults.DragHandle(color = Hairline) },
+    ) {
+        Column(Modifier.padding(start = ScreenPadding, end = ScreenPadding, bottom = 16.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(
+                    Modifier
+                        .size(28.dp)
+                        .background(Success, CircleShape),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    LineIcon(R.drawable.ic_check, null, Modifier.size(16.dp), tint = Color.White)
+                }
+                Spacer(Modifier.width(10.dp))
+                Text("Added to cart", style = MaterialTheme.typography.titleLarge)
+            }
+            Spacer(Modifier.height(20.dp))
+            SoftPanel(padding = 14.dp) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    ProductImage(product, Modifier.size(64.dp), RoundedCornerShape(16.dp))
+                    Spacer(Modifier.width(14.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(product.name, style = MaterialTheme.typography.titleMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        Text(
+                            product.tagline,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Muted,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    }
+                    Spacer(Modifier.width(12.dp))
+                    Text(formatPrice(product.priceCents), style = MaterialTheme.typography.titleMedium)
+                }
+            }
+            Spacer(Modifier.height(24.dp))
+            PrimaryButton("View cart", onViewCart, Modifier.fillMaxWidth())
+            Spacer(Modifier.height(12.dp))
+            SecondaryButton("Continue shopping", onContinueShopping, Modifier.fillMaxWidth().height(56.dp))
         }
     }
 }

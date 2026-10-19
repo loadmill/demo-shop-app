@@ -152,12 +152,13 @@ private fun DemoCard(form: CheckoutForm) {
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                "kestrel",
+                "Loadmill Demo Shop",
                 fontFamily = Jakarta,
                 fontWeight = FontWeight.ExtraBold,
                 fontSize = 20.sp,
                 letterSpacing = (-0.6).sp,
                 color = Color.White,
+                maxLines = 1,
                 modifier = Modifier.weight(1f),
             )
             Text(

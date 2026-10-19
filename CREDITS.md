@@ -19,4 +19,4 @@ All product photos come from [Unsplash](https://unsplash.com) and are used under
 
 ## Brand
 
-"Kestrel", its wordmark and the K logo mark are made up for this demo and are not affiliated with any real company.
+"Loadmill Demo Shop" is the name of this demo app. Its wordmark and shopping-bag logo mark were drawn for this demo; the products and store are not real.

@@ -37,6 +37,8 @@ class ShopViewModel : ViewModel() {
         private set
     var order by mutableStateOf<Order?>(null)
         private set
+    var addedProduct by mutableStateOf<Product?>(null)
+        private set
 
     fun selectCategory(newCategory: Category?) {
         category = newCategory
@@ -49,6 +51,15 @@ class ShopViewModel : ViewModel() {
 
     fun addToCart(product: Product) {
         cart = cart.add(product)
+    }
+
+    fun addToCartFromDetail(product: Product) {
+        addToCart(product)
+        addedProduct = product
+    }
+
+    fun dismissAddedPrompt() {
+        addedProduct = null
     }
 
     fun increase(productId: String) {
@@ -68,17 +79,22 @@ class ShopViewModel : ViewModel() {
     }
 
     fun goTo(target: Screen) {
+        addedProduct = null
         if (target == Screen.Catalog) selectedProduct = null
         screen = target
     }
 
     fun back(): Boolean {
+        if (addedProduct != null) {
+            dismissAddedPrompt()
+            return true
+        }
         when (screen) {
             Screen.Catalog -> return false
             Screen.Detail -> goTo(Screen.Catalog)
             Screen.Cart -> goTo(if (selectedProduct != null) Screen.Detail else Screen.Catalog)
             Screen.Checkout -> goTo(Screen.Cart)
-            Screen.Confirmation -> startOver()
+            Screen.Confirmation -> continueShopping()
         }
         return true
     }
@@ -98,7 +114,7 @@ class ShopViewModel : ViewModel() {
         screen = Screen.Confirmation
     }
 
-    fun startOver() {
+    fun continueShopping() {
         cart = Cart()
         form = CheckoutForm()
         showErrors = false

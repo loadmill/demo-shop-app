@@ -55,16 +55,26 @@ val ScreenPadding = 20.dp
 @Composable
 fun Wordmark(modifier: Modifier = Modifier) {
     Row(modifier, verticalAlignment = Alignment.CenterVertically) {
-        Image(painterResource(R.drawable.ic_logo_mark), contentDescription = null, modifier = Modifier.size(30.dp))
+        Image(painterResource(R.drawable.ic_logo_mark), contentDescription = null, modifier = Modifier.size(34.dp))
         Spacer(Modifier.width(10.dp))
-        Text(
-            "kestrel",
-            fontFamily = Jakarta,
-            fontWeight = FontWeight.ExtraBold,
-            fontSize = 24.sp,
-            letterSpacing = (-0.8).sp,
-            color = Ink,
-        )
+        Column {
+            Text(
+                "LOADMILL",
+                style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp, lineHeight = 12.sp, letterSpacing = 1.6.sp),
+                color = Muted,
+                maxLines = 1,
+            )
+            Text(
+                "Demo Shop",
+                fontFamily = Jakarta,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 21.sp,
+                lineHeight = 24.sp,
+                letterSpacing = (-0.6).sp,
+                color = Ink,
+                maxLines = 1,
+            )
+        }
     }
 }
 

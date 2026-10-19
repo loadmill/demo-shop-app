@@ -51,7 +51,7 @@ fun DemoShopApp(viewModel: ShopViewModel = viewModel()) {
                         product = product,
                         cart = viewModel.cart,
                         onBack = { viewModel.back() },
-                        onAdd = { viewModel.addToCart(product) },
+                        onAdd = { viewModel.addToCartFromDetail(product) },
                         onOpenCart = { viewModel.goTo(Screen.Cart) },
                     )
                 }
@@ -72,8 +72,16 @@ fun DemoShopApp(viewModel: ShopViewModel = viewModel()) {
                     onFormChange = viewModel::updateForm,
                     onPlaceOrder = viewModel::placeOrder,
                 )
-                Screen.Confirmation -> destination.order?.let { ConfirmationScreen(it, viewModel::startOver) }
+                Screen.Confirmation -> destination.order?.let { ConfirmationScreen(it, viewModel::continueShopping) }
             }
+        }
+        viewModel.addedProduct?.let { product ->
+            AddedToCartSheet(
+                product = product,
+                onViewCart = { viewModel.goTo(Screen.Cart) },
+                onContinueShopping = { viewModel.goTo(Screen.Catalog) },
+                onDismiss = viewModel::dismissAddedPrompt,
+            )
         }
     }
 }
