@@ -1,0 +1,3 @@
+<resources>
+    <style name="Theme.DemoShop" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>
