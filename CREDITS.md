@@ -19,4 +19,6 @@ All product photos come from [Unsplash](https://unsplash.com) and are used under
 
 ## Brand
 
-"Loadmill Demo Shop" is the name of this demo app. Its wordmark and shopping-bag logo mark were drawn for this demo; the products and store are not real.
+"Loadmill Demo Shop" is the name of this demo app. Its wordmark and shopping-bag logo were drawn for this demo; the products and store are not real.
+
+The Droid mark printed on the shopping bag in the launcher icon, the in-app logo and `docs/logo.svg` is a trademark of Loadmill, used with permission. It is recolored to a solid blue silhouette and bundled as `app/src/main/res/drawable-nodpi/ic_droid_mark.png`.

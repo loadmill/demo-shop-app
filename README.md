@@ -108,7 +108,7 @@ DEMO_SHOP_KEY_PASSWORD=...
 | --- | --- |
 | Application ID | `com.loadmill.demoshop` |
 | Launcher label | Demo Shop |
-| Version | 1.0.0 (versionCode 1) |
+| Version | 1.0.1 (versionCode 2) |
 | SDK | minSdk 26, targetSdk 36, compileSdk 36.1 |
 | Stack | Kotlin 2.4, Jetpack Compose (Material 3), AndroidX ViewModel, AGP 9.4 |
 | Tests | JUnit 4 |
@@ -125,8 +125,8 @@ app/src/
 │   │   ├── Product.kt             # the six products and price formatting
 │   │   └── ui/                    # one file per screen, plus theme and shared components
 │   └── res/
-│       ├── drawable-nodpi/        # product photos (800×800 WebP)
-│       ├── drawable/              # logo mark and icons (vector)
+│       ├── drawable-nodpi/        # product photos (800×800 WebP), Droid mark and logo tile (PNG)
+│       ├── drawable/              # launcher icon layers and UI icons (vector)
 │       └── font/                  # Plus Jakarta Sans
 └── test/java/com/loadmill/demoshop/
     └── CartTest.kt
