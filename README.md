@@ -47,6 +47,14 @@ A first test with a mobile-testing agent shouldn't depend on finding a build, a 
 
 ## The merch collection
 
+Captured from the Android app:
+
+<table><tr>
+<td><img src="docs/screenshots/merch-catalog-top.png" width="220" alt="Merch catalog: backpack and bottle"></td>
+<td><img src="docs/screenshots/merch-catalog-bottom.png" width="220" alt="Merch catalog: jersey, hat, headphones and T-shirt"></td>
+<td><img src="docs/screenshots/merch-jersey-detail.png" width="220" alt="Jersey product detail"></td>
+</tr></table>
+
 | Product | Color | Design | Preview |
 | --- | --- | --- | --- |
 | Backpack | Rust orange | Tonal windmill pattern and woven label | <img src="app/src/main/res/drawable-nodpi/product_backpack.webp" width="100" alt="Backpack"> |
