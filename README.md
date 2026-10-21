@@ -17,6 +17,8 @@ Run your first test before you upload an app of your own.
 
 </div>
 
+The screenshots below show the original catalog before the merch refresh; the purchase flow is unchanged.
+
 <table align="center">
   <tr>
     <td align="center"><img src="docs/screenshots/catalog.png" width="160" alt="Catalog"></td>
@@ -38,10 +40,23 @@ Run your first test before you upload an app of your own.
 
 A first test with a mobile-testing agent shouldn't depend on finding a build, a test account and a stable backend. Demo Shop is a small store that behaves the same way on every run:
 
-- **Six products with real photos** across three categories
+- **Six Loadmill merch products with generated product imagery** across three categories
 - **A complete purchase flow**: catalog, product page, cart, checkout, confirmation
 - **No network, no persistence, no payments**: there's no `INTERNET` permission, the cart lives in memory, and the card is a demo card
 - **A monochrome, editorial look** in Plus Jakarta Sans, light theme, edge-to-edge
+
+## The merch collection
+
+| Product | Color | Design | Preview |
+| --- | --- | --- | --- |
+| Backpack | Rust orange | Tonal windmill pattern and woven label | <img src="app/src/main/res/drawable-nodpi/product_backpack.webp" width="100" alt="Backpack"> |
+| Water Bottle | Forest green | Stay in the Flow lettering and flowchart illustration | <img src="app/src/main/res/drawable-nodpi/product_water_bottle.webp" width="100" alt="Water Bottle"> |
+| Jersey | Blue | Loadmill basketball teamwear with cyan trim | <img src="app/src/main/res/drawable-nodpi/product_jersey.webp" width="100" alt="Jersey"> |
+| Hat | Washed black | Ship it. Sleep well. embroidery | <img src="app/src/main/res/drawable-nodpi/product_hat.webp" width="100" alt="Hat"> |
+| Headphones | Plum purple | Ripple texture and subtle engraving | <img src="app/src/main/res/drawable-nodpi/product_headphones.webp" width="100" alt="Headphones"> |
+| T-Shirt | Cream | Let It Run robot illustration | <img src="app/src/main/res/drawable-nodpi/product_tshirt.webp" width="100" alt="T-Shirt"> |
+
+The jersey replaces Sneakers and the hat replaces Sunglasses. Product prices, categories and the purchase flow stay the same. These are fictional demo products.
 
 ## The demo journey
 
@@ -125,7 +140,7 @@ app/src/
 │   │   ├── Product.kt             # the six products and price formatting
 │   │   └── ui/                    # one file per screen, plus theme and shared components
 │   └── res/
-│       ├── drawable-nodpi/        # product photos (800×800 WebP), Droid mark and logo tile (PNG)
+│       ├── drawable-nodpi/        # product images (800×800 WebP), Droid mark and logo tile (PNG)
 │       ├── drawable/              # launcher icon layers and UI icons (vector)
 │       └── font/                  # Plus Jakarta Sans
 └── test/java/com/loadmill/demoshop/
@@ -134,6 +149,6 @@ app/src/
 
 ## Credits
 
-Product photos are from [Unsplash](https://unsplash.com) and the typeface is [Plus Jakarta Sans](https://github.com/tokotype/PlusJakartaSans) under the SIL Open Font License. Full attributions are in [`CREDITS.md`](CREDITS.md); the font license is in [`FONT-LICENSE-OFL.txt`](FONT-LICENSE-OFL.txt).
+Product imagery was generated with OpenAI image generation for this fictional Loadmill merch collection. The typeface is [Plus Jakarta Sans](https://github.com/tokotype/PlusJakartaSans) under the SIL Open Font License. Full attributions are in [`CREDITS.md`](CREDITS.md); the font license is in [`FONT-LICENSE-OFL.txt`](FONT-LICENSE-OFL.txt).
 
 <div align="center"><sub>The products and the store aren't real. The tests you run against it are.</sub></div>
