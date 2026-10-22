@@ -1,0 +1,7 @@
+Open the Demo Shop app.
+Add the Backpack to the cart.
+Open the cart.
+assert: the cart contains the Backpack
+Tap Checkout.
+Tap Place order. The checkout form is already filled in with demo details.
+assert: the "Order confirmed" screen is shown with an order number

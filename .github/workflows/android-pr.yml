@@ -1,0 +1,68 @@
+name: Android PR
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: Pull request number
+        required: true
+        type: string
+      pr_sha:
+        description: Exact pull request commit SHA
+        required: true
+        type: string
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: android-pr-${{ github.event.pull_request.number || inputs.pr_number }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build debug APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || inputs.pr_sha }}
+          persist-credentials: false
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v4
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Build debug APK
+        run: ./gradlew :app:assembleDebug --stacktrace
+
+      - name: Name the PR APK
+        id: apk
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
+        run: |
+          APK="$RUNNER_TEMP/demo-shop-debug-pr-$PR_NUMBER.apk"
+          cp app/build/outputs/apk/debug/app-debug.apk "$APK"
+          echo "path=$APK" >> "$GITHUB_OUTPUT"
+
+      - name: Upload the PR APK
+        uses: actions/upload-artifact@v7
+        with:
+          name: demo-shop-debug-pr-${{ github.event.pull_request.number || inputs.pr_number }}.apk
+          path: ${{ steps.apk.outputs.path }}
+          archive: false
+          if-no-files-found: error
+          retention-days: 14
