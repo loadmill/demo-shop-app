@@ -17,7 +17,7 @@ data class CheckoutForm(
     val cvc: String = "123",
 ) {
     val isValid: Boolean
-        get() = listOf(name, email, address, cardNumber, expiry, cvc).all { it.isNotBlank() }
+        get() = listOf(name, email, address, cardNumber, expiry, cvc).all { it.isNotBlank() } && "@" in email
 }
 
 data class Order(val number: String, val cart: Cart, val customerName: String)

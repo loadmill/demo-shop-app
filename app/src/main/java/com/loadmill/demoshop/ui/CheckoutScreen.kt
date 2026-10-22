@@ -79,7 +79,7 @@ fun CheckoutScreen(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     LineIcon(R.drawable.ic_lock, null, Modifier.size(16.dp), tint = Muted)
                     Spacer(Modifier.width(6.dp))
-                    Text("This is a demo. No real payment is made.", style = MaterialTheme.typography.bodySmall, color = Muted)
+                    Text("Demo checkout. Your card is never charged.", style = MaterialTheme.typography.bodySmall, color = Muted)
                 }
             }
             Section("Order summary") {
