@@ -1,0 +1,6 @@
+version: 1
+droid:
+  testRoot: tests
+  android:
+    buildWorkflow: android-pr.yml
+    artifactName: demo-shop-debug-pr-{prNumber}.apk
